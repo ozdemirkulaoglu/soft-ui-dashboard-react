@@ -13,6 +13,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import { useState, useEffect } from "react";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
@@ -45,11 +47,133 @@ import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
 
 import projectsTableData from "layouts/tables/data/projectsTableData";
+import scenariosTableData from "layouts/tables/data/scenariosTableData";
+import scenarioStepsTableData from "layouts/tables/data/scenarioStepsTableData";
+
+import axios from 'axios';
+
+import Action from "../tables/data/action";
+import ScenarioStepsAction from "../tables/data/scenarioStepsAction";
+import Record from "../tables/data/record";
+import Completion from "../tables/data/completion";
+
+import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+
+const getProjectURL = "https://neotest-701e1c076af2.herokuapp.com/api/count/get/localhost:5173";
+const getScenarioURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-projectId";
+const getScenarioStepURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-scenarioId";
 
 function Dashboard() {
+
+  const [projects, setProjects] = useState([]);
+  const [scenarioDataList, setScenarioDataList] = useState([]);
+  const [scStDataList, setScStDataList] = useState([]);
+
+  const [projectsData, setProjectsData] = useState([]);
+  const [scenarioData, setScenarioData] = useState([]);
+  const [scenarioStepData, setScenarioStepData] = useState([]);
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
   const { columns: prCols, rows: prRows } = projectsTableData;
+  const { columns: scCols, rows: scRows } = {...projectsTableData};
+  const { columns: scStCols, rows: scStRows } = {...projectsTableData};
+
+  useEffect(() => {
+    axios.defaults.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+    
+    axios
+      .get(getProjectURL)
+      .then((response) => {
+        console.log("response.data: ", response.data);
+        setProjects([].concat(response.data));
+      });
+  }, []);
+
+  useEffect(() => {
+    const tmpProjects = projects.map((i) => ({
+      project: [logoSpotify, i.projectId],
+      scenario: (
+        <SoftTypography variant="button" color="text" fontWeight="medium">
+          2,500
+        </SoftTypography>
+      ),
+      record: <Record started={false} />,
+      completion: <Completion value={60} color="info" />,
+      action: <Action projectId={i.projectId}/>,
+    }));
+    console.log("tmpProjects:", tmpProjects);
+    setProjectsData(tmpProjects);
+  }, [projects]);
+
+  useEffect(() => {
+    axios.defaults.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+    
+    axios
+      .post(getScenarioURL, {
+        "projectId":"KLH"
+      },
+    )
+      .then((response) => {
+        console.log("response.data: ", response.data);
+        setScenarioDataList(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    const tmpProjects = scenarioDataList.map((i) => ({
+      project: [logoSpotify, i.projectId],
+      scenario: (
+        <SoftTypography variant="button" color="text" fontWeight="medium">
+          2,500
+        </SoftTypography>
+      ),
+      record: "",
+      completion: "",
+      action: <ScenarioStepsAction projectId={i.projectId}/>,
+    }));
+    console.log("tmpProjects:", tmpProjects);
+    setScenarioData(tmpProjects);
+  }, [scenarioDataList]);
+
+  useEffect(() => {
+    axios.defaults.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+    
+    axios
+      .post(getScenarioStepURL, {
+        "projectId":"KLH",
+        "scenarioId": 1
+      },
+    )
+      .then((response) => {
+        console.log("response.data: ", response.data);
+        setScStDataList(response.data);
+      });
+  },[]);
+
+  useEffect(() => {
+    const tmpProjects = scStDataList.map((i) => ({
+      project: [logoSpotify, i.scenarioText],
+      scenario: (
+        <SoftTypography variant="button" color="text" fontWeight="medium">
+          2,500
+        </SoftTypography>
+      ),
+      record: "",
+      completion: "",
+      action: ""
+    }));
+    console.log("tmpProjects:", tmpProjects);
+    setScenarioStepData(tmpProjects);
+  }, [scStDataList]);
 
   return (
     <DashboardLayout>
@@ -119,11 +243,49 @@ function Dashboard() {
                 },
               }}
             >
-              <Table columns={prCols} rows={prRows} />
+              <Table columns={prCols} rows={projectsData} />
             </SoftBox>
           </Card>
         </SoftBox>
         <SoftBox mb={3}>
+          <Card>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+              <SoftTypography variant="h6">Test Scenarios</SoftTypography>
+            </SoftBox>
+            <SoftBox
+              sx={{
+                "& .MuiTableRow-root:not(:last-child)": {
+                  "& td": {
+                    borderBottom: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                  },
+                },
+              }}
+            >
+              <Table columns={scCols} rows={scenarioData} />
+            </SoftBox>
+          </Card>
+        </SoftBox>
+        <SoftBox mb={3}>
+          <Card>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+              <SoftTypography variant="h6">Test Scenario Steps</SoftTypography>
+            </SoftBox>
+            <SoftBox
+              sx={{
+                "& .MuiTableRow-root:not(:last-child)": {
+                  "& td": {
+                    borderBottom: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                  },
+                },
+              }}
+            >
+              <Table columns={scStCols} rows={scenarioStepData} />
+            </SoftBox>
+          </Card>
+        </SoftBox>
+        {/* <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
               <Projects />
@@ -132,8 +294,8 @@ function Dashboard() {
               <OrderOverview />
             </Grid>
           </Grid>
-        </SoftBox>
-        <SoftBox mb={3}>
+        </SoftBox> */}
+        {/* <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={5}>
               <ReportsBarChart
@@ -168,7 +330,7 @@ function Dashboard() {
               />
             </Grid>
           </Grid>
-        </SoftBox>
+        </SoftBox> */}
       </SoftBox>
       <Footer />
     </DashboardLayout>

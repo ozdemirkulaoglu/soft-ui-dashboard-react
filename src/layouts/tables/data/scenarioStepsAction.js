@@ -10,7 +10,7 @@ import SoftBox from "components/SoftBox";
 
 import PropTypes from "prop-types";
 
-function Action({ projectId }) {
+function ScenarioStepsAction({ projectId }) {
 
   const [projectActId, setProjectActId] = useState(projectId);
   const [menu, setMenu] = useState(null);
@@ -33,7 +33,7 @@ function Action({ projectId }) {
       open={Boolean(menu)}
       onClose={closeMenu}
     >
-      <MenuItem onClick={closeMenu}>Show Project Test Scenarios</MenuItem>
+      <MenuItem onClick={closeMenu}>Show Test Scenario Steps</MenuItem>
       {/* <MenuItem onClick={closeMenu}>Another action</MenuItem>
       <MenuItem onClick={closeMenu}>Something else</MenuItem> */}
     </Menu>
@@ -49,8 +49,8 @@ function Action({ projectId }) {
     );
 }
 
-Action.propTypes = {
+ScenarioStepsAction.propTypes = {
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 }
 
-export default Action;
+export default ScenarioStepsAction;
