@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 // @mui material components
 import Icon from "@mui/material/Icon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Switch from "@mui/material/Switch";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -15,6 +18,9 @@ import logoSlack from "assets/images/small-logos/logo-slack.svg";
 import logoWebDev from "assets/images/small-logos/logo-webdev.svg";
 import logoXD from "assets/images/small-logos/logo-xd.svg";
 
+import Action from "./action";
+import Record from "./record";
+
 function Completion({ value, color }) {
   return (
     <SoftBox display="flex" alignItems="center">
@@ -28,17 +34,19 @@ function Completion({ value, color }) {
   );
 }
 
-const action = (
-  <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small">
-    more_vert
-  </Icon>
-);
+// function Action() {
+//   return (
+//     <Icon sx={{ cursor: "pointer", fontWeight: "bold" }} fontSize="small">
+//       more_vert
+//     </Icon>
+//   );
+// }
 
 const projectsTableData = {
   columns: [
     { name: "project", align: "left" },
-    { name: "budget", align: "left" },
-    { name: "status", align: "left" },
+    { name: "scenario", align: "left" },
+    { name: "record", align: "left" },
     { name: "completion", align: "center" },
     { name: "action", align: "center" },
   ],
@@ -46,93 +54,69 @@ const projectsTableData = {
   rows: [
     {
       project: [logoSpotify, "Spotift"],
-      budget: (
+      scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
-          $2,500
+          2,500
         </SoftTypography>
       ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          working
-        </SoftTypography>
-      ),
+      record: <Record started={false} />,
       completion: <Completion value={60} color="info" />,
-      action,
+      action: <Action projectId={1}/>,
     },
     {
       project: [logoInvesion, "Invesion"],
-      budget: (
+      scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
           $5,000
         </SoftTypography>
       ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          done
-        </SoftTypography>
-      ),
+      record: <Record started={false} />,
       completion: <Completion value={100} color="success" />,
-      action,
+      action: <Action projectId={1}/>,
     },
     {
       project: [logoJira, "Jira"],
-      budget: (
+      scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
           $3,400
         </SoftTypography>
       ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          canceled
-        </SoftTypography>
-      ),
+      record: <Record started={false} />,
       completion: <Completion value={30} color="error" />,
-      action,
+      action: <Action projectId={1}/>,
     },
     {
       project: [logoSlack, "Slack"],
-      budget: (
+      scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
           $1,400
         </SoftTypography>
       ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          canceled
-        </SoftTypography>
-      ),
+      record: <Record started={false} />,
       completion: <Completion value={0} color="error" />,
-      action,
+      action: <Action projectId={1} />,
     },
     {
       project: [logoWebDev, "Webdev"],
-      budget: (
+      scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
           $14,000
         </SoftTypography>
       ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          working
-        </SoftTypography>
-      ),
+      record: <Record started={false} />,
       completion: <Completion value={80} color="info" />,
-      action,
+      action: <Action projectId={1} />,
     },
     {
       project: [logoXD, "Adobe XD"],
-      budget: (
+      scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
           $2,300
         </SoftTypography>
       ),
-      status: (
-        <SoftTypography variant="caption" color="text" fontWeight="medium">
-          done
-        </SoftTypography>
-      ),
+      record: <Record started={false} />,
       completion: <Completion value={100} color="success" />,
-      action,
+      action: <Action projectId={1} />,
     },
   ],
 };

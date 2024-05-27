@@ -59,7 +59,7 @@ function Tables() {
         </SoftBox>
         <Card>
           <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-            <SoftTypography variant="h6">Projects table</SoftTypography>
+            <SoftTypography variant="h6">Projects</SoftTypography>
           </SoftBox>
           <SoftBox
             sx={{

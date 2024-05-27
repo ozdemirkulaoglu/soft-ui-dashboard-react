@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
+import Card from "@mui/material/Card";
 
 // Soft UI Dashboard React components
 import SoftBox from "components/SoftBox";
@@ -28,6 +29,7 @@ import Footer from "examples/Footer";
 import MiniStatisticsCard from "examples/Cards/StatisticsCards/MiniStatisticsCard";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
+import Table from "examples/Tables/Table";
 
 // Soft UI Dashboard React base styles
 import typography from "assets/theme/base/typography";
@@ -42,9 +44,12 @@ import OrderOverview from "layouts/dashboard/components/OrderOverview";
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
 
+import projectsTableData from "layouts/tables/data/projectsTableData";
+
 function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
+  const { columns: prCols, rows: prRows } = projectsTableData;
 
   return (
     <DashboardLayout>
@@ -54,32 +59,24 @@ function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's money" }}
-                count="$53,000"
-                percentage={{ color: "success", text: "+55%" }}
+                title={{ text: "total number of test scenarios" }}
+                count="5762"
+                percentage={{ color: "success", text: "+35%" }}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "today's users" }}
+                title={{ text: "test environment scenarios" }}
                 count="2,300"
-                percentage={{ color: "success", text: "+3%" }}
+                percentage={{ color: "success", text: "+30%" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "new clients" }}
-                count="+3,462"
-                percentage={{ color: "error", text: "-2%" }}
-                icon={{ color: "info", component: "emoji_events" }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} xl={3}>
-              <MiniStatisticsCard
-                title={{ text: "sales" }}
-                count="$103,430"
+                title={{ text: "test scnearios generated" }}
+                count="103"
                 percentage={{ color: "success", text: "+5%" }}
                 icon={{
                   color: "info",
@@ -87,15 +84,52 @@ function Dashboard() {
                 }}
               />
             </Grid>
+            <Grid item xs={12} sm={6} xl={3}>
+              <MiniStatisticsCard
+                title={{ text: "new scenarios found" }}
+                count="5"
+                percentage={{ color: "success", text: "+25%" }}
+                icon={{ color: "info", component: "emoji_events" }}
+              />
+            </Grid>
           </Grid>
         </SoftBox>
-        <SoftBox mb={3}>
+        {/* <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={7}>
               <BuildByDevelopers />
             </Grid>
             <Grid item xs={12} lg={5}>
               <WorkWithTheRockets />
+            </Grid>
+          </Grid>
+        </SoftBox> */}
+        <SoftBox mb={3}>
+          <Card>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+              <SoftTypography variant="h6">Projects</SoftTypography>
+            </SoftBox>
+            <SoftBox
+              sx={{
+                "& .MuiTableRow-root:not(:last-child)": {
+                  "& td": {
+                    borderBottom: ({ borders: { borderWidth, borderColor } }) =>
+                      `${borderWidth[1]} solid ${borderColor}`,
+                  },
+                },
+              }}
+            >
+              <Table columns={prCols} rows={prRows} />
+            </SoftBox>
+          </Card>
+        </SoftBox>
+        <SoftBox mb={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={8}>
+              <Projects />
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <OrderOverview />
             </Grid>
           </Grid>
         </SoftBox>
@@ -135,14 +169,6 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6} lg={8}>
-            <Projects />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <OrderOverview />
-          </Grid>
-        </Grid>
       </SoftBox>
       <Footer />
     </DashboardLayout>
