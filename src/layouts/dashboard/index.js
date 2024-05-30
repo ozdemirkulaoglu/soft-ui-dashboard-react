@@ -85,9 +85,9 @@ function Dashboard() {
   ];
 
   const anomaliesColumns = [
+    { name: "anomaly", align: "left" },
     { name: "project", align: "left" },
     { name: "scenario", align: "left" },
-    { name: "anomaly", align: "left" },
     { name: "id", align: "left" },
     { name: "action", align: "center" }
   ];
