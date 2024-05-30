@@ -190,13 +190,13 @@ function Dashboard() {
 
   useEffect(() => {
     const tmpProjects = anomalyDataList.map((i) => ({
-      project: [logoSpotify, i.projectId],
+      project: i.projectId,
       scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
           {i.scenarioText}
         </SoftTypography>
       ),
-      anomaly: i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes",
+      anomaly: [logoSpotify, i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes"],
       id: i.scenarioId,
       action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setTableVisibility} showScenarioStepList={setScStDataList}/>,
     }));
