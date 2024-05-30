@@ -59,7 +59,7 @@ import Record from "../tables/data/record";
 import Completion from "../tables/data/completion";
 import AnomalyAction from "../tables/data/action";
 
-import logoSpotify from "assets/images/small-logos/rocket-white.svg";
+import logoSpotify from "assets/images/illustrations/rocket-white.png";
 
 import SoftButton from "components/SoftButton";
 
