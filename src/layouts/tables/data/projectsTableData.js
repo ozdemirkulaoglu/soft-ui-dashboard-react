@@ -46,6 +46,8 @@ const projectsTableData = {
   columns: [
     { name: "project", align: "left" },
     { name: "scenario", align: "left" },
+    { name: "environment", align: "left" },
+    { name: "url", align: "left" },
     { name: "record", align: "left" },
     { name: "completion", align: "center" },
     { name: "action", align: "center" },

@@ -10,13 +10,47 @@ import SoftBox from "components/SoftBox";
 
 import PropTypes from "prop-types";
 
-function Action({ projectId }) {
+import axios from 'axios';
 
-  const [projectActId, setProjectActId] = useState(projectId);
+const getScenarioURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-projectId";
+
+function Action({ showTestScenarios, projectId, showScenarioList }) {
+  
   const [menu, setMenu] = useState(null);
 
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
-  const closeMenu = () => setMenu(null);
+  const openTestScenarios = () => {
+      showTestScenarios("S");
+      getProjectTestScenarios();
+  }
+
+  const getProjectTestScenarios = () => {
+    axios.defaults.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+    
+    axios
+      .post(getScenarioURL, {
+        "projectId": projectId
+      },
+    )
+      .then((response) => {
+        console.log("response.data: ", response.data);
+
+        var result = [];
+        var index = 0;
+        response.data.forEach(function (a) {
+          if ( !this[a.sessionId] && !this[a.scenarioId] ) {
+              this[a.sessionId] = { projectId: a.projectId, sessionId: a.sessionId, scenarioId: a.scenarioId, scenarioName: "" };
+              result.push(this[a.sessionId]);
+              this[a.sessionId].scenarioName = "Scenario " + ++index;
+          }          
+      }, Object.create(null));
+      console.log("Result: ", result);
+        showScenarioList(result);
+      });
+  }
 
   const renderMenu = (
     <Menu
@@ -31,11 +65,9 @@ function Action({ projectId }) {
         horizontal: "right",
       }}
       open={Boolean(menu)}
-      onClose={closeMenu}
+      onClose={openTestScenarios}
     >
-      <MenuItem onClick={closeMenu}>Show Project Test Scenarios</MenuItem>
-      {/* <MenuItem onClick={closeMenu}>Another action</MenuItem>
-      <MenuItem onClick={closeMenu}>Something else</MenuItem> */}
+      <MenuItem onClick={openTestScenarios}>Show Project Test Scenarios</MenuItem>
     </Menu>
   );
 
@@ -51,6 +83,8 @@ function Action({ projectId }) {
 
 Action.propTypes = {
     projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    showTestScenarios: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    showScenarioList: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 }
 
 export default Action;

@@ -59,12 +59,34 @@ import Completion from "../tables/data/completion";
 
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 
+import SoftButton from "components/SoftButton";
+
+const getAllProjectsURL = "https://neotest-701e1c076af2.herokuapp.com/api/count/get";
 const getProjectURL = "https://neotest-701e1c076af2.herokuapp.com/api/count/get/localhost:5173";
 const getScenarioURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-projectId";
 const getScenarioStepURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-scenarioId";
 
 function Dashboard() {
 
+  const scenarioColumns = [
+    { name: "project", align: "left" },
+    { name: "id", align: "left" },
+    { name: "name", align: "left"},
+    { name: "action", align: "center" },
+  ];
+
+  const scenarioStepColumns = [
+    { name: "project", align: "left" },
+    { name: "scenario", align: "left" },
+    { name: "steps", align: "left" },
+  ];
+
+  const anomaliesColumns = [
+    { name: "project", align: "left" },
+    { name: "scenario", align: "left" },
+  ];
+
+  const [tableVisibility, setTableVisibility] = useState("P");
   const [projects, setProjects] = useState([]);
   const [scenarioDataList, setScenarioDataList] = useState([]);
   const [scStDataList, setScStDataList] = useState([]);
@@ -75,8 +97,9 @@ function Dashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
   const { columns: prCols, rows: prRows } = projectsTableData;
-  const { columns: scCols, rows: scRows } = {...projectsTableData};
-  const { columns: scStCols, rows: scStRows } = {...projectsTableData};
+  const { scenarioColumns: scCols, rows: scRows } = {...scenariosTableData, ...{scenarioColumns}};
+  const { scenarioStepColumns: scStCols, rows: scStRows } = {...scenarioStepsTableData, ...{scenarioStepColumns}};
+  const { anomaliesColumns: anomalyCols, rows: anomalyRows } = {...scenarioStepsTableData, ...{anomaliesColumns}};
 
   useEffect(() => {
     axios.defaults.headers = {
@@ -85,10 +108,10 @@ function Dashboard() {
     }
     
     axios
-      .get(getProjectURL)
+      .get(getAllProjectsURL)
       .then((response) => {
         console.log("response.data: ", response.data);
-        setProjects([].concat(response.data));
+        setProjects(response.data);
       });
   }, []);
 
@@ -97,83 +120,55 @@ function Dashboard() {
       project: [logoSpotify, i.projectId],
       scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
-          2,500
+          {i.count}
         </SoftTypography>
       ),
-      record: <Record started={false} />,
-      completion: <Completion value={60} color="info" />,
-      action: <Action projectId={i.projectId}/>,
+      environment: i.env,
+      record: <Record started={i.isOpen} />,
+      url: i.url,
+      completion: <Completion value={90} color="success" />,
+      action: <Action projectId={i.projectId} showTestScenarios={setTableVisibility} showScenarioList={setScenarioDataList}/>,
     }));
     console.log("tmpProjects:", tmpProjects);
     setProjectsData(tmpProjects);
   }, [projects]);
 
   useEffect(() => {
-    axios.defaults.headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-    
-    axios
-      .post(getScenarioURL, {
-        "projectId":"KLH"
-      },
-    )
-      .then((response) => {
-        console.log("response.data: ", response.data);
-        setScenarioDataList(response.data);
-      });
-  }, []);
-
-  useEffect(() => {
     const tmpProjects = scenarioDataList.map((i) => ({
       project: [logoSpotify, i.projectId],
-      scenario: (
+      id: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
-          2,500
+          {i.scenarioId}
         </SoftTypography>
       ),
-      record: "",
-      completion: "",
-      action: <ScenarioStepsAction projectId={i.projectId}/>,
+      name: i.scenarioName,
+      action: <ScenarioStepsAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setTableVisibility} showScenarioStepList={setScStDataList}/>,
     }));
     console.log("tmpProjects:", tmpProjects);
     setScenarioData(tmpProjects);
   }, [scenarioDataList]);
 
   useEffect(() => {
-    axios.defaults.headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-    
-    axios
-      .post(getScenarioStepURL, {
-        "projectId":"KLH",
-        "scenarioId": 1
-      },
-    )
-      .then((response) => {
-        console.log("response.data: ", response.data);
-        setScStDataList(response.data);
-      });
-  },[]);
-
-  useEffect(() => {
     const tmpProjects = scStDataList.map((i) => ({
-      project: [logoSpotify, i.scenarioText],
+      project: [logoSpotify, i.projectId],
       scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
-          2,500
+          {i.scenarioId}
         </SoftTypography>
       ),
-      record: "",
-      completion: "",
-      action: ""
+      steps: i.scenarioText
     }));
     console.log("tmpProjects:", tmpProjects);
     setScenarioStepData(tmpProjects);
   }, [scStDataList]);
+
+  const handleGoBackToProject = () => {
+    setTableVisibility("P");
+  }
+
+  const handleGoBackToTestScenarios = () => {
+    setTableVisibility("S");
+  }
 
   return (
     <DashboardLayout>
@@ -231,7 +226,7 @@ function Dashboard() {
         <SoftBox mb={3}>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftTypography variant="h6">Projects</SoftTypography>
+              <SoftTypography variant="h6">Anomalies</SoftTypography>
             </SoftBox>
             <SoftBox
               sx={{
@@ -243,14 +238,50 @@ function Dashboard() {
                 },
               }}
             >
-              <Table columns={prCols} rows={projectsData} />
+              <Table columns={anomalyCols} rows={projectsData} />
             </SoftBox>
           </Card>
         </SoftBox>
+        {
+          tableVisibility === "P" ? 
+            <SoftBox mb={3}>
+              <Card>
+                <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+                  <SoftTypography variant="h6">Projects</SoftTypography>
+                </SoftBox>
+                <SoftBox
+                  sx={{
+                    "& .MuiTableRow-root:not(:last-child)": {
+                      "& td": {
+                        borderBottom: ({ borders: { borderWidth, borderColor } }) =>
+                          `${borderWidth[1]} solid ${borderColor}`,
+                      },
+                    },
+                  }}
+                >
+                  <Table columns={prCols} rows={projectsData} />
+                </SoftBox>
+              </Card>
+            </SoftBox>
+          : null
+        }
+        {
+          tableVisibility === "S" ? 
         <SoftBox mb={3}>
           <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="left" p={3}>
               <SoftTypography variant="h6">Test Scenarios</SoftTypography>
+              <SoftButton
+                size="small"
+                color="light"
+                onClick={handleGoBackToProject}
+                fullWidth={false}
+                sx={{
+                  mr: 1,
+                }}
+              >
+                {"<-- Geri"}
+              </SoftButton>
             </SoftBox>
             <SoftBox
               sx={{
@@ -266,10 +297,25 @@ function Dashboard() {
             </SoftBox>
           </Card>
         </SoftBox>
+        : null
+      }
+      {
+          tableVisibility === "ST" ? 
         <SoftBox mb={3}>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
               <SoftTypography variant="h6">Test Scenario Steps</SoftTypography>
+              <SoftButton
+                size="small"
+                color="light"
+                onClick={handleGoBackToTestScenarios}
+                fullWidth={false}
+                sx={{
+                  mr: 1,
+                }}
+              >
+                {"<-- Geri"}
+              </SoftButton>
             </SoftBox>
             <SoftBox
               sx={{
@@ -285,6 +331,8 @@ function Dashboard() {
             </SoftBox>
           </Card>
         </SoftBox>
+        : null
+      }
         {/* <SoftBox mb={3}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
