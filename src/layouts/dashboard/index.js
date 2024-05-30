@@ -49,6 +49,7 @@ import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData"
 import projectsTableData from "layouts/tables/data/projectsTableData";
 import scenariosTableData from "layouts/tables/data/scenariosTableData";
 import scenarioStepsTableData from "layouts/tables/data/scenarioStepsTableData";
+import anomalyTableData from "layouts/tables/data/anomalyTableData";
 
 import axios from 'axios';
 
@@ -56,6 +57,7 @@ import Action from "../tables/data/action";
 import ScenarioStepsAction from "../tables/data/scenarioStepsAction";
 import Record from "../tables/data/record";
 import Completion from "../tables/data/completion";
+import AnomalyAction from "../tables/data/action";
 
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
 
@@ -65,6 +67,7 @@ const getAllProjectsURL = "https://neotest-701e1c076af2.herokuapp.com/api/count/
 const getProjectURL = "https://neotest-701e1c076af2.herokuapp.com/api/count/get/localhost:5173";
 const getScenarioURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-projectId";
 const getScenarioStepURL = "https://neotest-701e1c076af2.herokuapp.com/api/test/get-scenarioId";
+const suggestionProjectsURL = "https://neotest-701e1c076af2.herokuapp.com/api/suggestion/get-projectId";
 
 function Dashboard() {
 
@@ -84,22 +87,44 @@ function Dashboard() {
   const anomaliesColumns = [
     { name: "project", align: "left" },
     { name: "scenario", align: "left" },
+    { name: "accepted", align: "left" },
+    { name: "id", align: "left" },
+    { name: "action", align: "center" }
   ];
 
   const [tableVisibility, setTableVisibility] = useState("P");
   const [projects, setProjects] = useState([]);
   const [scenarioDataList, setScenarioDataList] = useState([]);
   const [scStDataList, setScStDataList] = useState([]);
+  const [anomalyDataList, setAnomalyDataList] = useState([]);
 
   const [projectsData, setProjectsData] = useState([]);
   const [scenarioData, setScenarioData] = useState([]);
   const [scenarioStepData, setScenarioStepData] = useState([]);
+  const [anomalyData, setAnomalyDAta] = useState([]);
+
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
   const { columns: prCols, rows: prRows } = projectsTableData;
   const { scenarioColumns: scCols, rows: scRows } = {...scenariosTableData, ...{scenarioColumns}};
   const { scenarioStepColumns: scStCols, rows: scStRows } = {...scenarioStepsTableData, ...{scenarioStepColumns}};
-  const { anomaliesColumns: anomalyCols, rows: anomalyRows } = {...scenarioStepsTableData, ...{anomaliesColumns}};
+  const { anomaliesColumns: anomalyCols, rows: anomalyRows } = {...anomalyTableData, ...{anomaliesColumns}};
+
+  useEffect(() => {
+    axios.defaults.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    }
+    
+    axios
+      .post(suggestionProjectsURL,{
+        "projectId": 'KLH'
+      },)
+      .then((response) => {
+        console.log("response.data: ", response.data);
+        setAnomalyDataList(response.data);
+      });
+  }, []);
 
   useEffect(() => {
     axios.defaults.headers = {
@@ -111,7 +136,8 @@ function Dashboard() {
       .get(getAllProjectsURL)
       .then((response) => {
         console.log("response.data: ", response.data);
-        setProjects(response.data);
+        var result = response.data.filter(x => x.env === 'test');
+        setProjects(result);
       });
   }, []);
 
@@ -161,6 +187,22 @@ function Dashboard() {
     console.log("tmpProjects:", tmpProjects);
     setScenarioStepData(tmpProjects);
   }, [scStDataList]);
+
+  useEffect(() => {
+    const tmpProjects = anomalyDataList.map((i) => ({
+      project: [logoSpotify, i.projectId],
+      scenario: (
+        <SoftTypography variant="button" color="text" fontWeight="medium">
+          {i.scenarioText}
+        </SoftTypography>
+      ),
+      accepted: i.isAccepted ? "Yes" : "No",
+      id: i.scenarioId,
+      action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setTableVisibility} showScenarioStepList={setScStDataList}/>,
+    }));
+    console.log("tmpProjects:", tmpProjects);
+    setAnomalyDAta(tmpProjects);
+  }, [anomalyDataList]);
 
   const handleGoBackToProject = () => {
     setTableVisibility("P");
@@ -238,7 +280,7 @@ function Dashboard() {
                 },
               }}
             >
-              <Table columns={anomalyCols} rows={projectsData} />
+              <Table columns={anomalyCols} rows={anomalyData} />
             </SoftBox>
           </Card>
         </SoftBox>
