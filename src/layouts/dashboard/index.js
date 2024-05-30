@@ -87,7 +87,7 @@ function Dashboard() {
   const anomaliesColumns = [
     { name: "project", align: "left" },
     { name: "scenario", align: "left" },
-    { name: "accepted", align: "left" },
+    { name: "anomaly", align: "left" },
     { name: "id", align: "left" },
     { name: "action", align: "center" }
   ];
@@ -196,7 +196,7 @@ function Dashboard() {
           {i.scenarioText}
         </SoftTypography>
       ),
-      accepted: i.isAccepted ? "Yes" : "No",
+      anomaly: i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "No",
       id: i.scenarioId,
       action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setTableVisibility} showScenarioStepList={setScStDataList}/>,
     }));
