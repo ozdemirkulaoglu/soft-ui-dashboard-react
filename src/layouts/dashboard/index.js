@@ -196,7 +196,7 @@ function Dashboard() {
           {i.scenarioText}
         </SoftTypography>
       ),
-      anomaly: i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "No",
+      anomaly: i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes",
       id: i.scenarioId,
       action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setTableVisibility} showScenarioStepList={setScStDataList}/>,
     }));
