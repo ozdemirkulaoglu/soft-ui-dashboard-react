@@ -57,7 +57,7 @@ import Action from "../tables/data/action";
 import ScenarioStepsAction from "../tables/data/scenarioStepsAction";
 import Record from "../tables/data/record";
 import Completion from "../tables/data/completion";
-import AnomalyAction from "../tables/data/action";
+import AnomalyAction from "../tables/data/anomalyAction";
 
 import logoSpotify from "assets/images/illustrations/rocket-white.png";
 
@@ -193,7 +193,8 @@ function Dashboard() {
       project: i.projectId,
       scenario: (
         <SoftTypography variant="button" color="text" fontWeight="medium">
-          {i.scenarioText}
+          {/* {i.scenarioText} */}
+          {'Scenario ' + i.scenarioId}
         </SoftTypography>
       ),
       anomaly: [logoSpotify, i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes"],
@@ -221,24 +222,24 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "total number of test scenarios" }}
-                count="5762"
-                percentage={{ color: "success", text: "+35%" }}
+                count="12"
+                percentage={{ color: "success", text: "" }}
                 icon={{ color: "info", component: "paid" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "test environment scenarios" }}
-                count="2,300"
-                percentage={{ color: "success", text: "+30%" }}
+                count="10"
+                percentage={{ color: "success", text: "+83.33%" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
-                title={{ text: "test scnearios generated" }}
-                count="103"
-                percentage={{ color: "success", text: "+5%" }}
+                title={{ text: "new test scenarios generated" }}
+                count="5"
+                percentage={{ color: "success", text: "+41.66%" }}
                 icon={{
                   color: "info",
                   component: "shopping_cart",
@@ -248,8 +249,8 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "new scenarios found" }}
-                count="5"
-                percentage={{ color: "success", text: "+25%" }}
+                count="2"
+                percentage={{ color: "success", text: "+16.66%" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>
@@ -268,7 +269,7 @@ function Dashboard() {
         <SoftBox mb={3}>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftTypography variant="h6">Anomalies</SoftTypography>
+              <SoftTypography variant="h6">New Scenarios</SoftTypography>
             </SoftBox>
             <SoftBox
               sx={{

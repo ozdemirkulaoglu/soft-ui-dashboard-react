@@ -67,7 +67,7 @@ function Action({ showTestScenarios, projectId, showScenarioList }) {
       open={Boolean(menu)}
       onClose={openTestScenarios}
     >
-      <MenuItem onClick={openTestScenarios}>Show Project Test Scenarios</MenuItem>
+      <MenuItem onClick={openTestScenarios}>Show Test Scenario</MenuItem>
     </Menu>
   );
 
