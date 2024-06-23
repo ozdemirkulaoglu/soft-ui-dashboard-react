@@ -27,6 +27,10 @@ function ScenarioStepsAction({ projectId, scenarioId, showTestScenarios, showSce
     getScenarioStepsList();
   }
 
+  const showTestScenario = () => {
+    showTestScenarios("TSG");
+  }
+
   const getScenarioStepsList= () => {
     axios.defaults.headers = {
       'Content-Type': 'application/json',
@@ -61,6 +65,7 @@ function ScenarioStepsAction({ projectId, scenarioId, showTestScenarios, showSce
       onClose={openScenarioSteps}
     >
       <MenuItem onClick={openScenarioSteps}>Show Test Scenario Steps</MenuItem>
+      <MenuItem onClick={showTestScenario}>Show Test Scenario Code</MenuItem>
     </Menu>
   );
 

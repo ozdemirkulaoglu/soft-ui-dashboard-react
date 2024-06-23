@@ -41,6 +41,7 @@ import BuildByDevelopers from "layouts/dashboard/components/BuildByDevelopers";
 import WorkWithTheRockets from "layouts/dashboard/components/WorkWithTheRockets";
 import Projects from "layouts/dashboard/components/Projects";
 import OrderOverview from "layouts/dashboard/components/OrderOverview";
+import CodeBlockDemo from "layouts/dashboard/components/CodeBlock/codeBlockDemo";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
@@ -93,6 +94,7 @@ function Dashboard() {
   ];
 
   const [tableVisibility, setTableVisibility] = useState("P");
+  const [newScenarioVisibility, setNewScenarioVisibility] = useState("S");
   const [projects, setProjects] = useState([]);
   const [scenarioDataList, setScenarioDataList] = useState([]);
   const [scStDataList, setScStDataList] = useState([]);
@@ -199,7 +201,7 @@ function Dashboard() {
       ),
       anomaly: [logoSpotify, i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes"],
       id: i.scenarioId,
-      action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setTableVisibility} showScenarioStepList={setScStDataList}/>,
+      action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setNewScenarioVisibility} showScenarioStepList={setScStDataList}/>,
     }));
     console.log("tmpProjects:", tmpProjects);
     setAnomalyDAta(tmpProjects);
@@ -211,6 +213,10 @@ function Dashboard() {
 
   const handleGoBackToTestScenarios = () => {
     setTableVisibility("S");
+  }
+
+  const handleGoBackToNewScenarios = () => {
+    setNewScenarioVisibility("S")
   }
 
   return (
@@ -266,25 +272,54 @@ function Dashboard() {
             </Grid>
           </Grid>
         </SoftBox> */}
-        <SoftBox mb={3}>
-          <Card>
-            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftTypography variant="h6">New Scenarios</SoftTypography>
-            </SoftBox>
-            <SoftBox
-              sx={{
-                "& .MuiTableRow-root:not(:last-child)": {
-                  "& td": {
-                    borderBottom: ({ borders: { borderWidth, borderColor } }) =>
-                      `${borderWidth[1]} solid ${borderColor}`,
+        { 
+          newScenarioVisibility === 'S' ?
+          <SoftBox mb={3}>
+            <Card>
+              <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+                <SoftTypography variant="h6">New Scenarios</SoftTypography>
+              </SoftBox>
+              <SoftBox
+                sx={{
+                  "& .MuiTableRow-root:not(:last-child)": {
+                    "& td": {
+                      borderBottom: ({ borders: { borderWidth, borderColor } }) =>
+                        `${borderWidth[1]} solid ${borderColor}`,
+                    },
                   },
-                },
-              }}
-            >
-              <Table columns={anomalyCols} rows={anomalyData} />
-            </SoftBox>
-          </Card>
-        </SoftBox>
+                }}
+              >
+                <Table columns={anomalyCols} rows={anomalyData} />
+              </SoftBox>
+            </Card>
+          </SoftBox>
+        : null
+        }
+        {
+          newScenarioVisibility === "G" ? 
+          <SoftBox mb={3}>
+            <Card>
+              <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+                <SoftTypography variant="h6">Test Scenario Code in Gherkin</SoftTypography>
+                <SoftButton
+                  size="small"
+                  color="light"
+                  onClick={handleGoBackToNewScenarios}
+                  fullWidth={false}
+                  sx={{
+                    mr: 1,
+                  }}
+                >
+                  {"<-- Geri"}
+                </SoftButton>
+              </SoftBox>
+              <SoftBox display="flex" p={3}>
+                <CodeBlockDemo></CodeBlockDemo>
+              </SoftBox>
+            </Card>
+          </SoftBox>
+          : null 
+        }
         {
           tableVisibility === "P" ? 
             <SoftBox mb={3}>
@@ -375,6 +410,31 @@ function Dashboard() {
           </Card>
         </SoftBox>
         : null
+      }
+      {
+        tableVisibility === "TSG" ? 
+        <SoftBox mb={3}>
+          <Card>
+            <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
+              <SoftTypography variant="h6">Test Scenario Code in Gherkin</SoftTypography>
+              <SoftButton
+                size="small"
+                color="light"
+                onClick={handleGoBackToTestScenarios}
+                fullWidth={false}
+                sx={{
+                  mr: 1,
+                }}
+              >
+                {"<-- Geri"}
+              </SoftButton>
+            </SoftBox>
+            <SoftBox display="flex" p={3}>
+              <CodeBlockDemo></CodeBlockDemo>
+            </SoftBox>
+          </Card>
+        </SoftBox>
+        : null 
       }
         {/* <SoftBox mb={3}>
           <Grid container spacing={3}>

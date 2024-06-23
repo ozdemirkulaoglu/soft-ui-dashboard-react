@@ -22,8 +22,8 @@ function AnomalyAction({ projectId, scenarioId, showTestScenarios, showScenarioS
   const openMenu = ({ currentTarget }) => setMenu(currentTarget);
   const closeMenu = () => setMenu(null);
 
-  const acceptProdScenario = () => {
-    // showTestScenarios("ST");
+  const showTestScenario = () => {
+    showTestScenarios("G");
     // getScenarioStepsList();
   }
 
@@ -58,9 +58,9 @@ function AnomalyAction({ projectId, scenarioId, showTestScenarios, showScenarioS
         horizontal: "right",
       }}
       open={Boolean(menu)}
-      onClose={acceptProdScenario}
+      onClose={showTestScenario}
     >
-      <MenuItem onClick={acceptProdScenario}>Show Test Scenario Steps</MenuItem>
+      <MenuItem onClick={showTestScenario}>Show Test Scenario Code</MenuItem>
     </Menu>
   );
 
