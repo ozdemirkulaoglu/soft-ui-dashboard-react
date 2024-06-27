@@ -120,8 +120,8 @@ function Dashboard() {
     Then wait for web page to be loaded
 
     Given find input with id 'kredi-tutari' on the page
-    When enter value of '123' for input with id 'kredi-tutari'
-    Then check that if value equals to '123'
+    When enter value of '5000' for input with id 'kredi-tutari'
+    Then check that if value equals to '5000'
 
     Given find input with id 'vade24' on the page
     When enter value of '24' for input with id 'vade24'
@@ -131,8 +131,8 @@ function Dashboard() {
     When change value to 'on' for input with id 'promosyon-kodu'
     Then check that if value equals to 'on'
 
-    Given find button with id 'KrediTutar' on the page
-    When user clicks on button with id 'KrediTutar'
+    Given find button with id 'Hesapla' on the page
+    When user clicks on button with id 'Hesapla'
     Then check that if response equals 200 and finish
   `;
 
@@ -144,8 +144,8 @@ function Dashboard() {
     Then wait for web page to be loaded
 
     Given find input with id 'taksit-tutari' on the page
-    When enter value of '88888' for input with id 'taksit-tutari'
-    Then check that if value equals to '88888'
+    When enter value of '10000' for input with id 'taksit-tutari'
+    Then check that if value equals to '10000'
 
     Given find input with id 'vade-taksit36' on the page
     When enter value of '36' for input with id 'vade-taksit36'
@@ -159,8 +159,8 @@ function Dashboard() {
     When change value to 'on' for input with id 'promosyon-kodu-taksit'
     Then check that if value equals to 'on'
 
-    Given find button with id 'TaksitTutar' on the page
-    When user clicks on button with id 'TaksitTutar'
+    Given find button with id 'Hesapla' on the page
+    When user clicks on button with id 'Hesapla'
     Then check that if response equals 200 and finish
   `;
 
