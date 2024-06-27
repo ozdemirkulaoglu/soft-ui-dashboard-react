@@ -57,7 +57,7 @@ import axios from 'axios';
 import Action from "../tables/data/action";
 import ScenarioStepsAction from "../tables/data/scenarioStepsAction";
 import Record from "../tables/data/record";
-import Completion from "../tables/data/completion";
+// import Completion from "../tables/data/completion";
 import AnomalyAction from "../tables/data/anomalyAction";
 
 import logoSpotify from "assets/images/illustrations/rocket-white.png";
@@ -206,7 +206,7 @@ function Dashboard() {
       environment: i.env,
       record: <Record started={i.isOpen} />,
       url: i.url,
-      completion: <Completion value={90} color="success" />,
+      // completion: <Completion value={90} color="success" />,
       action: <Action projectId={i.projectId} showTestScenarios={setTableVisibility} showScenarioList={setScenarioDataList}/>,
     }));
     console.log("tmpProjects:", tmpProjects);

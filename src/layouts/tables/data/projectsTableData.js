@@ -49,7 +49,7 @@ const projectsTableData = {
     { name: "environment", align: "left" },
     { name: "url", align: "left" },
     { name: "record", align: "left" },
-    { name: "completion", align: "center" },
+    // { name: "completion", align: "center" },
     { name: "action", align: "center" },
   ],
 
