@@ -329,7 +329,7 @@ function Dashboard() {
           <SoftBox mb={3}>
             <Card>
               <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                <SoftTypography variant="h6">New Scenarios</SoftTypography>
+                <SoftTypography variant="h6">New Scenarios Found - Production Environment</SoftTypography>
               </SoftBox>
               <SoftBox
                 sx={{
