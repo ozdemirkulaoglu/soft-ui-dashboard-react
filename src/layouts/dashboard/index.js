@@ -289,7 +289,7 @@ function Dashboard() {
               <MiniStatisticsCard
                 title={{ text: "test environment scenarios" }}
                 count="1"
-                percentage={{ color: "success", text: "+100%" }}
+                percentage={{ color: "success", text: "" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
@@ -297,7 +297,7 @@ function Dashboard() {
               <MiniStatisticsCard
                 title={{ text: "new test scenarios generated" }}
                 count="1"
-                percentage={{ color: "success", text: "+100%" }}
+                percentage={{ color: "success", text: "" }}
                 icon={{
                   color: "info",
                   component: "shopping_cart",
@@ -308,7 +308,7 @@ function Dashboard() {
               <MiniStatisticsCard
                 title={{ text: "new scenarios found" }}
                 count="1"
-                percentage={{ color: "success", text: "+100%" }}
+                percentage={{ color: "success", text: "" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>
