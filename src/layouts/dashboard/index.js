@@ -116,7 +116,7 @@ function Dashboard() {
   Feature: İhtiyaçKredisiScenario
 
   Scenario:
-    Given open KLH web page
+    Given open İhtiyaçKredisi web page
     Then wait for web page to be loaded
 
     Given find input with id 'kredi-tutari' on the page
@@ -140,7 +140,7 @@ function Dashboard() {
   Feature: İhtiyaçKredisiScenario
 
   Scenario:
-    Given open KLH web page
+    Given open İhtiyaçKredisi web page
     Then wait for web page to be loaded
 
     Given find input with id 'taksit-tutari' on the page
