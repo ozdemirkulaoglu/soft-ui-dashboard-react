@@ -176,7 +176,7 @@ function Dashboard() {
       },)
       .then((response) => {
         console.log("response.data: ", response.data);
-        setAnomalyDataList(response.data);
+        setAnomalyDataList([].concat(response.data[0]));
       });
   }, []);
 
@@ -191,7 +191,7 @@ function Dashboard() {
       .then((response) => {
         console.log("response.data: ", response.data);
         var result = response.data.filter(x => x.env === 'test');
-        setProjects(result);
+        setProjects([].concat(result[0]));
       });
   }, []);
 
