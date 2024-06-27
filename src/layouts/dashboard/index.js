@@ -377,7 +377,7 @@ function Dashboard() {
             <SoftBox mb={3}>
               <Card>
                 <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                  <SoftTypography variant="h6">Projects</SoftTypography>
+                  <SoftTypography variant="h6">Projects - Test Environment</SoftTypography>
                 </SoftBox>
                 <SoftBox
                   sx={{
