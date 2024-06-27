@@ -113,7 +113,7 @@ function Dashboard() {
   const { anomaliesColumns: anomalyCols, rows: anomalyRows } = {...anomalyTableData, ...{anomaliesColumns}};
 
   const codeContentTest = `
-  Feature: KlhScreenTest
+  Feature: İhtiyaçKredisiScenario
 
   Scenario:
     Given open KLH web page
@@ -137,7 +137,7 @@ function Dashboard() {
   `;
 
   const codeContentProd = `
-  Feature: KlhScreenTest
+  Feature: İhtiyaçKredisiScenario
 
   Scenario:
     Given open KLH web page
@@ -172,7 +172,7 @@ function Dashboard() {
     
     axios
       .post(suggestionProjectsURL,{
-        "projectId": 'KLH'
+        "projectId": 'İhtiyaç Kredisi'
       },)
       .then((response) => {
         console.log("response.data: ", response.data);
@@ -280,7 +280,7 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "total number of test scenarios" }}
-                count="12"
+                count="2"
                 percentage={{ color: "success", text: "" }}
                 icon={{ color: "info", component: "paid" }}
               />
@@ -288,16 +288,16 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "test environment scenarios" }}
-                count="10"
-                percentage={{ color: "success", text: "+83.33%" }}
+                count="1"
+                percentage={{ color: "success", text: "+100%" }}
                 icon={{ color: "info", component: "public" }}
               />
             </Grid>
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "new test scenarios generated" }}
-                count="5"
-                percentage={{ color: "success", text: "+41.66%" }}
+                count="1"
+                percentage={{ color: "success", text: "+100%" }}
                 icon={{
                   color: "info",
                   component: "shopping_cart",
@@ -307,8 +307,8 @@ function Dashboard() {
             <Grid item xs={12} sm={6} xl={3}>
               <MiniStatisticsCard
                 title={{ text: "new scenarios found" }}
-                count="2"
-                percentage={{ color: "success", text: "+16.66%" }}
+                count="1"
+                percentage={{ color: "success", text: "+100%" }}
                 icon={{ color: "info", component: "emoji_events" }}
               />
             </Grid>

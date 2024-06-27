@@ -48,7 +48,7 @@ function Action({ showTestScenarios, projectId, showScenarioList }) {
           }          
       }, Object.create(null));
       console.log("Result: ", result);
-        showScenarioList(result);
+        showScenarioList([].concat(result[0]));
       });
   }
 
