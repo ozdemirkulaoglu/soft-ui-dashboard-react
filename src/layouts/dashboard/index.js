@@ -112,6 +112,58 @@ function Dashboard() {
   const { scenarioStepColumns: scStCols, rows: scStRows } = {...scenarioStepsTableData, ...{scenarioStepColumns}};
   const { anomaliesColumns: anomalyCols, rows: anomalyRows } = {...anomalyTableData, ...{anomaliesColumns}};
 
+  const codeContentTest = `
+  Feature: KlhScreenTest
+
+  Scenario:
+    Given open KLH web page
+    Then wait for web page to be loaded
+
+    Given find input with id 'kredi-tutari' on the page
+    When enter value of '123' for input with id 'kredi-tutari'
+    Then check that if value equals to '123'
+
+    Given find input with id 'vade24' on the page
+    When enter value of '24' for input with id 'vade24'
+    Then check that if value equals to '24'
+
+    Given find input with id 'promosyon-kodu' on the page
+    When change value to 'on' for input with id 'promosyon-kodu'
+    Then check that if value equals to 'on'
+
+    Given find button with id 'KrediTutar' on the page
+    When user clicks on button with id 'KrediTutar'
+    Then check that if response equals 200 and finish
+  `;
+
+  const codeContentProd = `
+  Feature: KlhScreenTest
+
+  Scenario:
+    Given open KLH web page
+    Then wait for web page to be loaded
+
+    Given find input with id 'taksit-tutari' on the page
+    When enter value of '88888' for input with id 'taksit-tutari'
+    Then check that if value equals to '88888'
+
+    Given find input with id 'vade-taksit36' on the page
+    When enter value of '36' for input with id 'vade-taksit36'
+    Then check that if value equals to '36'
+
+    Given find input with id 'kredi-turu' on the page
+    When enter value of 'Sigortasız Kredi' for input with id 'kredi-turu'
+    Then check that if value equals to 'Sigortasız Kredi'
+
+    Given find input with id 'promosyon-kodu-taksit' on the page
+    When change value to 'on' for input with id 'promosyon-kodu-taksit'
+    Then check that if value equals to 'on'
+
+    Given find button with id 'TaksitTutar' on the page
+    When user clicks on button with id 'TaksitTutar'
+    Then check that if response equals 200 and finish
+  `;
+
   useEffect(() => {
     axios.defaults.headers = {
       'Content-Type': 'application/json',
@@ -300,7 +352,7 @@ function Dashboard() {
           <SoftBox mb={3}>
             <Card>
               <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-                <SoftTypography variant="h6">Test Scenario Code in Gherkin</SoftTypography>
+                <SoftTypography variant="h6">Test Scenario Code in Gherkin - Prod Environment</SoftTypography>
                 <SoftButton
                   size="small"
                   color="light"
@@ -314,7 +366,7 @@ function Dashboard() {
                 </SoftButton>
               </SoftBox>
               <SoftBox display="flex" p={3}>
-                <CodeBlockDemo></CodeBlockDemo>
+                <CodeBlockDemo codeContentStr={codeContentProd}></CodeBlockDemo>
               </SoftBox>
             </Card>
           </SoftBox>
@@ -416,7 +468,7 @@ function Dashboard() {
         <SoftBox mb={3}>
           <Card>
             <SoftBox display="flex" justifyContent="space-between" alignItems="center" p={3}>
-              <SoftTypography variant="h6">Test Scenario Code in Gherkin</SoftTypography>
+              <SoftTypography variant="h6">Test Scenario Code in Gherkin - Test Environment</SoftTypography>
               <SoftButton
                 size="small"
                 color="light"
@@ -430,7 +482,7 @@ function Dashboard() {
               </SoftButton>
             </SoftBox>
             <SoftBox display="flex" p={3}>
-              <CodeBlockDemo></CodeBlockDemo>
+              <CodeBlockDemo codeContentStr={codeContentTest}></CodeBlockDemo>
             </SoftBox>
           </Card>
         </SoftBox>

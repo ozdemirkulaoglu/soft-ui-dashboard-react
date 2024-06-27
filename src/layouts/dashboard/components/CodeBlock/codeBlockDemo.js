@@ -1,7 +1,8 @@
 import { CodeBlock } from 'react-code-block';
 import { themes } from 'prism-react-renderer';
+import PropTypes from "prop-types";
 
-function CodeBlockDemo() {
+function CodeBlockDemo({ codeContentStr }) {
 
   const codeContent = `
   Feature: KlhScreenTest
@@ -24,7 +25,7 @@ function CodeBlockDemo() {
   `;
 
   return (
-    <CodeBlock code={codeContent} language="js" theme={themes.github}>
+    <CodeBlock code={codeContentStr} language="js" theme={themes.github}>
       <div className="relative bg-gray-900 rounded-xl overflow-hidden shadow-lg">
         <div className="text-sm text-gray-400 px-6 py-4" style={{fontSize:"16px", fontWeight:"bold"}}>KlhScreenTest.feature</div>
         <CodeBlock.Code className="bg-gray-900 p-6 rounded-xl shadow-lg">
@@ -38,6 +39,10 @@ function CodeBlockDemo() {
       </div>
     </CodeBlock>
   );
+}
+
+CodeBlockDemo.propTypes = {
+  codeContentStr: PropTypes.oneOfType([PropTypes.string, PropTypes.string]).isRequired
 }
 
 export default CodeBlockDemo;
