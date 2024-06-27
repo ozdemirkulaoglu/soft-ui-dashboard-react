@@ -86,7 +86,7 @@ function Dashboard() {
   ];
 
   const anomaliesColumns = [
-    { name: "anomaly", align: "left" },
+    { name: "suggestion", align: "left" },
     { name: "project", align: "left" },
     { name: "scenario", align: "left" },
     { name: "id", align: "left" },
@@ -251,7 +251,7 @@ function Dashboard() {
           {'Scenario ' + i.scenarioId}
         </SoftTypography>
       ),
-      anomaly: [logoSpotify, i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes"],
+      suggestion: [logoSpotify, i.anomaly !== null && i.anomaly.toLowerCase() === "yes" ? "Yes" : "Yes"],
       id: i.scenarioId,
       action: <AnomalyAction projectId={i.projectId} scenarioId={i.scenarioId} showTestScenarios={setNewScenarioVisibility} showScenarioStepList={setScStDataList}/>,
     }));
